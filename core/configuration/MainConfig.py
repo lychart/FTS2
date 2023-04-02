@@ -2,18 +2,22 @@ import os
 import sys
 import re
 import yaml
+from android.storage import app_storage_path 
+
 currentPath = os.path.dirname(os.path.abspath(__file__))
+app_path = app_storage_path()
 
 from pathlib import Path
 from uuid import uuid4
 
 # the version information of the server (recommended to leave as default)
 
-FTS_VERSION = "FreeTAKServer-2.0.21"
+FTS_VERSION = "FTS-2.0.21"
 API_VERSION = "3.0"
 ROOTPATH = "/"
-MAINPATH = Path(__file__).parent.parent.parent
-PERSISTENCE_PATH = r'/opt/fts'
+#MAINPATH = Path(__file__).parent.parent.parent
+MAINPATH =  str(Path(rf"{app_path}/FTS"))
+PERSISTENCE_PATH = str(Path(rf"{MAINPATH}/PS"))
 
 class MainConfig:
     """
@@ -49,12 +53,12 @@ class MainConfig:
         "version": {"default": FTS_VERSION, "type": str, "readonly": True},
         "APIVersion": {"default": API_VERSION, "type": str, "readonly": True},
         "SecretKey": {"default": "vnkdjnfjknfl1232#", "type": str},
-        "nodeID": {"default": f"FreeTAKServer-{_node_id}", "type": str},
+        "nodeID": {"default": f"FTS-{_node_id}", "type": str},
         "OptimizeAPI": {"default": True, "type": bool},
         "DataReceptionBuffer": {"default": 1024, "type": int},
         "MaxReceptionTime": {"default": 4, "type": int},
         "UserPersistencePath": {
-            "default": Path("/opt/user_persistence.txt"),
+            "default": Path(rf"{MAINPATH}/user_persistence.txt"),
             "type": str,
         },
         # number of milliseconds to wait between each iteration of main loop
@@ -123,7 +127,7 @@ class MainConfig:
         "CRLFile": {"default": Path(rf"{PERSISTENCE_PATH}/certs/FTS_CRL.json"), "type": str},
         # set to None if you don't want a message sent
         "ConnectionMessage": {
-            "default": f"Welcome to FreeTAKServer {FTS_VERSION}. The Parrot is not dead. It’s just resting",
+            "default": f"{FTS_VERSION}",
             "type": str,
         },
         "DataBaseType": {"default": "SQLite", "type": str},
