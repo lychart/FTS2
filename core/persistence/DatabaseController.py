@@ -81,7 +81,7 @@ class DatabaseController:
         :arg
         """
         engine = create_engine(DatabaseConfiguration().DataBaseConnectionString, echo=False)
-        if engine.dialect.has_table(engine, 'SystemUser') == False:
+        if engine.dialect.has_table(engine.connect(), 'SystemUser') == False:
             Base.metadata.create_all(engine)
             tempsession = sessionmaker(bind=engine)()
             tempsession.add(FreeTAKServer.model.SQLAlchemy.system_user.SystemUser(uid="1", name="admin", password="password", token="token", device_type="mobile"))
