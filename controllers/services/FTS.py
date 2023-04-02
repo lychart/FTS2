@@ -1656,11 +1656,11 @@ if __name__ == "__main__":
         aotc.bake(common_name="Client", cert="user", expiry_time_secs=31536000)
         import os
 
-        if args.d:
-            CreateStartupFilesController().create_daemon()
-            os.system("systemd daemon-reload")
-            os.system("systemctl start FreeTAKServer.service")
-            exit(1)
+        #if args.d:
+        #    CreateStartupFilesController().create_daemon()
+        #    os.system("systemd daemon-reload")
+        #    os.system("systemctl start FreeTAKServer.service")
+        #    exit(1)
         FTS().startup(
             args.CoTPort,
             args.CoTIP,
