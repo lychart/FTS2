@@ -7,7 +7,7 @@ from kivy.utils import platform
 if platform == 'android':
     from android.storage import app_storage_path
     the_path = app_storage_path()
-elif platform in ('macos', 'win'):
+elif platform in ('macosx', 'win'):
     the_path = os.path.dirname(os.path.realpath('__main__.py'))        
 else:
     raise NotImplementedError("FTS service not implemented on this platform")
