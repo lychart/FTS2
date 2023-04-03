@@ -3,6 +3,7 @@ pillow
 Flask==2.0.3
 Werkzeug==2.0.3
 Flask-SQLAlchemy==2.5.1
+SQLAlchemy==1.4.47
 lxml==4.9.2
 protobuf==3.20.3
 docutils==0.18.1
@@ -20,7 +21,7 @@ geopy==2.2.0
 greenlet==2.0.2
 itsdangerous==2.0.1
 testresources==2.0.1
-Jinja2==2.11.2
+Jinja2>=3.0
 MarkupSafe==2.0.1
 monotonic==1.6
 pathlib2==2.3.7.post1
@@ -33,7 +34,6 @@ six==1.16.0
 tabulate==0.8.7
 WTForms==2.3.3
 qrcode==7.3.1
-asyncio==3.4.3
 Flask-Login
 pyOpenSSL
 Flask-Migrate
@@ -54,13 +54,10 @@ Flask-HTTPAuth
 scrapy
 python-engineio
 cryptography
-wheel
-pathlib
-SQLAlchemy
+wheelunin
 setuptools
 jaraco.functools
 bidict
-jnius
 xmltodict
 pyzmq
 digitalpy
