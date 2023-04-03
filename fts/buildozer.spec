@@ -16,7 +16,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv
 
 # (list) List of inclusions using pattern matching
-source.include_patterns = FreeTAKServer/*
+#source.include_patterns = FreeTAKServer/*
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec
@@ -32,7 +32,7 @@ source.include_patterns = FreeTAKServer/*
 # version.filename = %(source.dir)s/main.py
 
 # (str) Application versioning (method 2)
-version = 2.5
+version = 1.0
 
 # (list) Application requirements
 requirements = python3,kivy==2.1.0,android,android.permissions,android.storage,kivymd,pillow,flask==2.0.3,werkzeug==2.0.3,flask-sqlalchemy==2.5.1,libxml2==2.9.10,libxslt==1.1.31,protobuf==3.20.3,docutils==0.18.1,more-itertools==8.12.0,flask_login,pyOpenSSL,flask_migrate,flask_wtf,email_validator,gunicorn,coveralls,coverage,pytest,flake8,flake8-print,pep8-naming,selenium,lxml,waitress,cheroot,python-socketio,flask_httpauth,scrapy,python-engineio,cryptography,wheel,pathlib,sqlalchemy,setuptools,jaraco.functools,bidict,jnius
@@ -70,7 +70,10 @@ android.api = 33
 android.minapi = 21
 
 # (list) List of service to declare
-services = myfts:./FreeTAKServer/controllers/services/FTS.py:foreground:sticky
+services = Myfts:my_service.py:foreground:sticky
+
+# (str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86
+android.archs = arm64-v8a
 
 [buildozer]
 
