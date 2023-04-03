@@ -2,10 +2,20 @@ import os
 import sys
 import re
 import yaml
-from android.storage import app_storage_path 
+from kivy.utils import platform
 
-currentPath = os.path.dirname(os.path.abspath(__file__))
-app_path = app_storage_path()
+if platform == 'android':
+    from android.storage import app_storage_path
+    the_path = app_storage_path()
+elif platform in ('macos', 'win'):
+    the_path = os.path.dirname(os.path.realpath('__main__.py'))        
+else:
+    raise NotImplementedError("FTS service not implemented on this platform")
+
+#from android.storage import app_storage_path 
+
+#currentPath = os.path.dirname(os.path.abspath(__file__))
+app_path = the_path
 
 from pathlib import Path
 from uuid import uuid4
