@@ -43,4 +43,3 @@ class Remarks(Base):
     # Version tag for this sub schema.  Neccessary to ensure upward compatibility
     # with future revisions.
     version = Column(String(100))
-    INTAG = Column(String(1000))

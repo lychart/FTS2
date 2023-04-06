@@ -86,7 +86,6 @@ class Detail(FTSProtocolObject):
         detail.link = Link.emergency_on()
         detail.contact = Contact.emergency_on()
         detail.emergency = Emergency.emergency_on()
-        detail.remarks = Remarks.emergency_on()
         return detail
 
     @staticmethod
@@ -139,7 +138,6 @@ class Detail(FTSProtocolObject):
     def SimpleCoT():
         detail = Detail()
         detail.contact = Contact.SimpleCoT()
-        detail.remarks = Remarks.geo_object()
         return detail
 
     @staticmethod
@@ -147,7 +145,6 @@ class Detail(FTSProtocolObject):
         detail = Detail()
         detail.contact = Contact.Presence()
         detail._group = _Group.Presence()
-        detail.remarks = Remarks.Presence()
         return detail
 
     @staticmethod

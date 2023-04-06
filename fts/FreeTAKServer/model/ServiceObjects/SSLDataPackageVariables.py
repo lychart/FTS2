@@ -1,10 +1,7 @@
-from FreeTAKServer.core.configuration.MainConfig import MainConfig
-
-# Make a connection to the MainConfig object for all routines below
-config = MainConfig.instance()
+from FreeTAKServer.controllers.configuration.MainConfig import MainConfig
 
 class SSLDataPackageVariables:
     def __init__(self):
-        self.SSLDataPackageIP = config.DataPackageServiceDefaultIP
-        self.SSLDataPackagePort = 8443
+        self.SSLDataPackageIP = MainConfig.DataPackageServiceDefaultIP
+        self.SSLDataPackagePort = 15580
         self.SSLDataPackageStatus = ""

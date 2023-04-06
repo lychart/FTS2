@@ -1,11 +1,8 @@
-from FreeTAKServer.core.configuration.MainConfig import MainConfig
-
-# Make a connection to the MainConfig object for all routines below
-config = MainConfig.instance()
+from FreeTAKServer.controllers.configuration.MainConfig import MainConfig
 
 class FederationServerServiceVariables:
     def __init__(self):
         # TODO: change to default ''
         self.FederationServerServiceStatus = 'stop'
-        self.FederationServerServicePort = config.FederationPort
+        self.FederationServerServicePort = MainConfig.FederationPort
         self.FederationServerServiceIP = "0.0.0.0"

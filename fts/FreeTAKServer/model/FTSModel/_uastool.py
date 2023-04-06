@@ -6,7 +6,14 @@ class _Uastool(FTSProtocolObject):
         self.extendedCot = None
         self.activeRoute = None
 
- 
+    @staticmethod
+    def DroneSensor(EXTENDEDCOT=vars.DroneSensor().extendedCot, ACTIVEROUTE=vars.DroneSensor().activeRoute, ):
+        _uastool = _Uastool()
+        _uastool.setextendedCot(EXTENDEDCOT)
+        _uastool.setactiveRoute(ACTIVEROUTE)
+
+        return _uastool
+
     def getextendedCot(self):
             return self.extendedCot
 

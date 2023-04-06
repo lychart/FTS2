@@ -486,3 +486,6 @@ class Event(FTSProtocolObject):
 
     def setdetail(self, detail=None):
         self.detail = detail
+if __name__ == "__main__":
+    Event()
+

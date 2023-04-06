@@ -1,10 +1,7 @@
-from FreeTAKServer.core.configuration.MainConfig import MainConfig
-
-# Make a connection to the MainConfig object for all routines below
-config = MainConfig.instance()
+from FreeTAKServer.controllers.configuration.MainConfig import MainConfig
 
 class RestAPIServiceVariables:
     def __init__(self):
-        self.RestAPIServiceIP = config.APIIP
-        self.RestAPIServicePort = config.APIPort
+        self.RestAPIServiceIP = MainConfig.APIIP
+        self.RestAPIServicePort = MainConfig.APIPort
         self.RestAPIServiceStatus = ""

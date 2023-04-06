@@ -1,8 +1,6 @@
-from FreeTAKServer.model.RestMessages.Emergency import Emergency
+from FreeTAKServer.model.RestMessages.Emergency import Emergency, RestEnumerations
 
 class EmergencyPost(Emergency):
-    remarks = ''
-
     def __init__(self):
         pass
 
@@ -14,12 +12,6 @@ class EmergencyPost(Emergency):
             return self.address
         except:
             return None
-
-    def setremarks(self, remarks):
-        self.remarks = remarks
-
-    def getremarks(self):
-        return self.remarks
 
     def setemergencyType(self, emergencyType):
         self.emergencyType = emergencyType
@@ -51,3 +43,7 @@ class EmergencyPost(Emergency):
             return '0'
         else:
             return self.longitude
+
+if __name__ == "__main__":
+    x = EmergencyPost()
+    1 == 1

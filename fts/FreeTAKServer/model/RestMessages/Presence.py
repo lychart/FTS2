@@ -25,4 +25,3 @@ class Presence:
     # the color of the team
     team = ""
     timeout = ""
-    remarks = ""
