@@ -2,7 +2,7 @@ from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivy.utils import platform
-from FreeTAKServer.controllers.services import FTS
+from FreeTAKServer.controllers.services.FTS import FTS
 from FreeTAKServer.controllers.configuration.OrchestratorConstants import OrchestratorConstants
 from FreeTAKServer.model.ServiceObjects.FTS import FTS as FTSObj
 from FreeTAKServer.controllers.configuration.MainConfig import MainConfig
@@ -78,7 +78,7 @@ class Main(MDApp):
             label.text = "ON"
             #ex = threading.Event()
             #FTS.start(ex)
-            self.start_fts()            
+            #self.start_fts()            
             #self.service.start(self.mActivity, 'small_icon', 'title', 'content' , self.argument)
             #self.start_service('Myfts')
             if platform == 'android':
