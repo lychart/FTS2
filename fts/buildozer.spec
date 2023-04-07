@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = FTS2App
+title = FTSApp
 
 # (str) Package name
-package.name = fts2app
+package.name = ftsapp
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.fts
