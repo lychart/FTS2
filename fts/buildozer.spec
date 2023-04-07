@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = FTSApp
+title = FTS2App
 
 # (str) Package name
-package.name = ftsapp
+package.name = fts2app
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.fts
@@ -35,7 +35,7 @@ source.include_exts = py,png,jpg,kv
 version = 1.0
 
 # (list) Application requirements
-requirements = python3,kivy==2.1.0,android,android.permissions,android.storage,kivymd,pillow,flask==2.0.3,werkzeug==2.0.3,flask-sqlalchemy==2.5.1,libxml2==2.9.10,libxslt==1.1.31,protobuf==3.20.3,docutils==0.18.1,more-itertools==8.12.0,flask_login,pyOpenSSL,flask_migrate,flask_wtf,email_validator,gunicorn,coveralls,coverage,pytest,flake8,flake8-print,pep8-naming,selenium,lxml,waitress,cheroot,python-socketio,flask_httpauth,scrapy,python-engineio,cryptography,wheel,pathlib,sqlalchemy,setuptools,jaraco.functools,bidict,jnius
+requirements = python3,kivy==2.1.0,android,android.permissions,android.storage,kivymd,pillow,Flask==2.0.3,Werkzeug==2.0.3,Flask-SQLAlchemy==2.5.1,SQLAlchemy==1.4.47,lxml==4.9.2,protobuf==3.20.3,docutils==0.18.1,more-itertools==8.12.0,click==8.0.4,colorama==0.4.4,defusedxml==0.7.1,dnspython==2.2.1,eventlet==0.33.3,Flask-Cors==3.0.9,Flask-SocketIO==4.3.1,geographiclib==1.52,geopy==2.2.0,greenlet==2.0.2,itsdangerous==2.0.1,testresources==2.0.1,Jinja2>=3.0,MarkupSafe==2.0.1,monotonic==1.6,pathlib2==2.3.7.post1,psutil==5.9.4,pykml==0.2.0,PyYAML==6.0,ruamel.yaml==0.17.21,ruamel.yaml.clib==0.2.7,six==1.16.0,tabulate==0.8.7,WTForms==2.3.3,qrcode==7.3.1,Flask-Login,pyOpenSSL,Flask-Migrate,Flask-WTF,email_validator,gunicorn,coveralls,coverage,pytest,flake8,flake8-print,pep8-naming,selenium,waitress,cheroot,python-socketio,Flask-HTTPAuth,scrapy,python-engineio,cryptography,wheel,setuptools,jaraco.functools,bidict,xmltodict,pyzmq,opentelemetry-sdk,jnius
 
 # (str) Custom source folders for requirements
 # Sets custom folder for the requirements
@@ -70,7 +70,7 @@ android.api = 33
 android.minapi = 21
 
 # (list) List of service to declare
-services = Myfts:my_service.py:foreground:sticky
+services = Myfts:my_service.py:foreground
 
 # (str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86
 android.archs = arm64-v8a
