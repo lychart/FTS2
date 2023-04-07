@@ -1,8 +1,9 @@
 from typing import List
 import os
 from FreeTAKServer.controllers.configuration.MainConfig import MainConfig
-from ruamel.yaml import YAML
-yaml = YAML()
+#from ruamel.yaml import YAML
+#yaml = YAML()
+import yaml
 import pathlib
 from pathlib import Path
 from kivy.utils import platform
@@ -40,7 +41,7 @@ def add_to_config(path: List[str], data: str, source: dict):
 
 def ask_user_for_config():
     yaml_path = MainConfig.yaml_path
-    yaml_config = yaml.load(default_yaml_file)
+    yaml_config = yaml.safe_load(default_yaml_file)
     
     with open(pathlib.PurePath(Path(fr'{MainConfig.APP_PATH}/FreeTAKServer/controllers/configuration/MainConfig.py')), mode="r+") as file:
         data = file.readlines()
