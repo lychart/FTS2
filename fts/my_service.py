@@ -6,7 +6,7 @@ from FreeTAKServer.controllers.configuration_wizard import ask_user_for_config
 from FreeTAKServer.controllers.certificate_generation import AtakOfTheCerts
 import argparse
 
-def start_fts(self):
+def start_fts():
     try:
         parser = argparse.ArgumentParser(description=OrchestratorConstants().FULLDESC)
         parser.add_argument('-CoTPort', type=int, help=OrchestratorConstants().COTPORTDESC,
