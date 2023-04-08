@@ -2,13 +2,13 @@ from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivy.utils import platform
-from FreeTAKServer.controllers.services.FTS import FTS
-from FreeTAKServer.controllers.configuration.OrchestratorConstants import OrchestratorConstants
-from FreeTAKServer.model.ServiceObjects.FTS import FTS as FTSObj
-from FreeTAKServer.controllers.configuration.MainConfig import MainConfig
-from FreeTAKServer.controllers.configuration_wizard import ask_user_for_config
-from FreeTAKServer.controllers.certificate_generation import AtakOfTheCerts
-import argparse
+#from FreeTAKServer.controllers.services.FTS import FTS
+#from FreeTAKServer.controllers.configuration.OrchestratorConstants import OrchestratorConstants
+#from FreeTAKServer.model.ServiceObjects.FTS import FTS as FTSObj
+#from FreeTAKServer.controllers.configuration.MainConfig import MainConfig
+#from FreeTAKServer.controllers.configuration_wizard import ask_user_for_config
+#from FreeTAKServer.controllers.certificate_generation import AtakOfTheCerts
+#import argparse
 import threading
 from os import environ
 
@@ -83,6 +83,7 @@ class Main(MDApp):
             #self.start_service('Myfts')
             if platform == 'android':
                 self.start_service()
+    """
     def start_fts(self):
         try:
             parser = argparse.ArgumentParser(description=OrchestratorConstants().FULLDESC)
@@ -130,5 +131,5 @@ class Main(MDApp):
                           args.AutoStart, True, args.UI)
         except Exception as e:
             print(e)     
-     
+     """
 Main().run()
