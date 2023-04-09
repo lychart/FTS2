@@ -254,4 +254,4 @@ class MainConfig:
     # location to backup client packages
     clientPackages = str(Path(fr'{MAINPATH}/certs/ClientPackages'))
 
-    first_start = True
+    first_start = False
