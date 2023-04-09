@@ -43,12 +43,14 @@ def ask_user_for_config():
     yaml_path = MainConfig.yaml_path
     yaml_config = yaml.safe_load(default_yaml_file)
     
+    """
     with open(pathlib.PurePath(Path(fr'{MainConfig.APP_PATH}/FreeTAKServer/controllers/configuration/MainConfig.py')), mode="r+") as file:
         data = file.readlines()
         data[-1] = "    first_start = False"
     with open(pathlib.PurePath(Path(fr'{MainConfig.APP_PATH}/FreeTAKServer/controllers/configuration/MainConfig.py')), mode="w+") as file:
         file.writelines(data)
-
+    """
+    
     file = open(yaml_path, mode="w+")
     yaml.dump(yaml_config, file)
     file.close()
