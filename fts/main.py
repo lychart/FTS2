@@ -12,10 +12,13 @@ from kivy.utils import platform
 import threading
 from os import environ
 
+"""
 if platform == 'android':
     from jnius import autoclass
     from android import mActivity
-
+"""
+from jnius import autoclass
+from android import mActivity
 
 kv = """
 #:import Thread threading.Thread
@@ -43,13 +46,19 @@ class Main(MDApp):
     in_class = ObjectProperty(None)
     
     def build(self):
+        """
         if platform == 'android':
             from android.permissions import request_permissions, Permission
             request_permissions(['android.permission.READ_EXTERNAL_STORAGE', 'android.permission.WRITE_EXTERNAL_STORAGE', 'android.permission.POST_NOTIFICATIONS'])
             context =  mActivity.getApplicationContext()
             service_name = str(context.getPackageName()) + '.ServiceMyfts'
             self.service = autoclass(service_name)
-        #self.service = None
+        """
+        from android.permissions import request_permissions, Permission
+        request_permissions(['android.permission.READ_EXTERNAL_STORAGE', 'android.permission.WRITE_EXTERNAL_STORAGE', 'android.permission.POST_NOTIFICATIONS'])
+        context =  mActivity.getApplicationContext()
+        service_name = str(context.getPackageName()) + '.ServiceMyfts'
+        self.service = autoclass(service_name)
         return Builder.load_string(kv)
 
     def start_service(self):        
@@ -60,9 +69,13 @@ class Main(MDApp):
         #service = autoclass('org.fts.ftsapp.ServiceFts')
         #mActivity = autoclass('org.kivy.android.PythonActivity').mActivity
         #argument = environ.get('PYTHON_SERVICE_ARGUMENT', '')
+        """
         if platform == 'android':
             self.service.start(mActivity,'')   
             return self.service
+        """
+        self.service.start(mActivity,'')   
+        return self.service
 
     def control_fts(self):        
         if self.root.ids.switch.text == 'ON':
@@ -71,8 +84,11 @@ class Main(MDApp):
             #self.service.stop(self.mActivity)
             #mActivity = autoclass('org.kivy.android.PythonActivity').mActivity
             #self.start_service('Myfts').stop(mActivity)
+            """
             if platform == 'android':
                 self.start_service().stop(mActivity)
+            """
+            self.start_service().stop(mActivity)
         else:
             label = self.root.ids.switch
             label.text = "ON"
@@ -81,8 +97,11 @@ class Main(MDApp):
             #self.start_fts()            
             #self.service.start(self.mActivity, 'small_icon', 'title', 'content' , self.argument)
             #self.start_service('Myfts')
+            """
             if platform == 'android':
                 self.start_service()
+            """
+            self.start_service()
     """
     def start_fts(self):
         try:
