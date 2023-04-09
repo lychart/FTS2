@@ -1,3 +1,4 @@
+import os
 from FreeTAKServer.controllers.services.FTS import FTS
 from FreeTAKServer.controllers.configuration.OrchestratorConstants import OrchestratorConstants
 from FreeTAKServer.model.ServiceObjects.FTS import FTS as FTSObj
@@ -35,7 +36,9 @@ try:
     parser.add_argument('-UI', type=str, help="set to true if you would like to start UI on server startup")
     args = parser.parse_args()
     
-    if MainConfig.first_start:
+    #if MainConfig.first_start:
+    yaml_path = MainConfig.yaml_path
+    if not os.path.exists(yaml_path):
         ask_user_for_config()
     else:
         pass
