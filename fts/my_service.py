@@ -47,7 +47,7 @@ try:
     aotc.generate_ca(expiry_time_secs=31536000)
     aotc.bake(common_name="server", cert="server", expiry_time_secs=31536000)
     aotc.bake(common_name="Client", cert="user", expiry_time_secs=31536000)
-    import os
+    #import os
     
     
     FTS().startup(args.CoTPort, args.CoTIP, args.DataPackagePort, args.DataPackageIP, args.SSLDataPackagePort,
