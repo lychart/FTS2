@@ -2,13 +2,13 @@ from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivy.utils import platform
-#from FreeTAKServer.controllers.services.FTS import FTS
-#from FreeTAKServer.controllers.configuration.OrchestratorConstants import OrchestratorConstants
-#from FreeTAKServer.model.ServiceObjects.FTS import FTS as FTSObj
-#from FreeTAKServer.controllers.configuration.MainConfig import MainConfig
-#from FreeTAKServer.controllers.configuration_wizard import ask_user_for_config
-#from FreeTAKServer.controllers.certificate_generation import AtakOfTheCerts
-#import argparse
+from FreeTAKServer.controllers.services.FTS import FTS
+from FreeTAKServer.controllers.configuration.OrchestratorConstants import OrchestratorConstants
+from FreeTAKServer.model.ServiceObjects.FTS import FTS as FTSObj
+from FreeTAKServer.controllers.configuration.MainConfig import MainConfig
+from FreeTAKServer.controllers.configuration_wizard import ask_user_for_config
+from FreeTAKServer.controllers.certificate_generation import AtakOfTheCerts
+import argparse
 import threading
 from os import environ
 
@@ -56,9 +56,9 @@ class Main(MDApp):
         """
         from android.permissions import request_permissions, Permission
         request_permissions(['android.permission.READ_EXTERNAL_STORAGE', 'android.permission.WRITE_EXTERNAL_STORAGE', 'android.permission.POST_NOTIFICATIONS'])
-        context =  mActivity.getApplicationContext()
-        service_name = str(context.getPackageName()) + '.ServiceMyfts'
-        self.service = autoclass(service_name)
+        #context =  mActivity.getApplicationContext()
+        #service_name = str(context.getPackageName()) + '.ServiceMyfts'
+        #self.service = autoclass(service_name)
         return Builder.load_string(kv)
 
     def start_service(self):        
@@ -74,8 +74,9 @@ class Main(MDApp):
             self.service.start(mActivity,'')   
             return self.service
         """
-        self.service.start(mActivity,'')   
-        return self.service
+        #self.service.start(mActivity,'')   
+        #return self.service
+        pass
 
     def control_fts(self):        
         if self.root.ids.switch.text == 'ON':
@@ -88,21 +89,21 @@ class Main(MDApp):
             if platform == 'android':
                 self.start_service().stop(mActivity)
             """
-            self.start_service().stop(mActivity)
+            #self.start_service().stop(mActivity)
         else:
             label = self.root.ids.switch
             label.text = "ON"
             #ex = threading.Event()
             #FTS.start(ex)
-            #self.start_fts()            
+            self.start_fts()            
             #self.service.start(self.mActivity, 'small_icon', 'title', 'content' , self.argument)
             #self.start_service('Myfts')
             """
             if platform == 'android':
                 self.start_service()
             """
-            self.start_service()
-    """
+            #self.start_service()
+    
     def start_fts(self):
         try:
             parser = argparse.ArgumentParser(description=OrchestratorConstants().FULLDESC)
@@ -150,5 +151,5 @@ class Main(MDApp):
                           args.AutoStart, True, args.UI)
         except Exception as e:
             print(e)     
-     """
+     
 Main().run()
