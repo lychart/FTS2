@@ -70,7 +70,7 @@ android.api = 33
 android.minapi = 21
 
 # (list) List of service to declare
-services = Myfts:my_service.py:foreground
+#services = Myfts:my_service.py:foreground
 
 # (str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86
 android.archs = arm64-v8a
