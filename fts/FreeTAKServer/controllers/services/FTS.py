@@ -1,5 +1,6 @@
-import multiprocessing
+#import multiprocessing
 from threading import Thread as Process
+from threading import Event as Event
 
 import threading
 import argparse
@@ -88,9 +89,9 @@ class FTS:
             restapicommandsmain = Queue()
             self.RestAPICommandsFTS = QueueManager(restapicommandsmain, restapicommandsthread)
             RestAPICommandsFTS = QueueManager(restapicommandsthread, restapicommandsmain)
-            self.receive_Rest_stopper = multiprocessing.Event()
+            self.receive_Rest_stopper = Event()
             self.receive_Rest_stopper.clear()
-            self.receive_Rest = threading.Thread(target=self.receive_Rest_commands, args=(self.receive_Rest_stopper,))
+            self.receive_Rest = Process(target=self.receive_Rest_commands, args=(self.receive_Rest_stopper,))
             self.RestAPIProcess = Process(target=RestAPI().startup, args=(
             self.RestAPIPipe, RestAPICommandsFTS, StartupObjects.RestAPIService.RestAPIServiceIP,
             StartupObjects.RestAPIService.RestAPIServicePort, self.StartupTime))
@@ -131,9 +132,9 @@ class FTS:
             self.TCPCoTService = QueueManager(TCPCoTServiceThread, TCPCoTServiceFTS)
             TCPCoTService = QueueManager(TCPCoTServiceFTS, TCPCoTServiceThread)
             print('event event about to be created')
-            self.CoTPoisonPill = multiprocessing.Event()
+            self.CoTPoisonPill = Event()
             self.CoTPoisonPill.set()
-            self.ReceiveConnectionsReset = multiprocessing.Event()
+            self.ReceiveConnectionsReset = Event()
             self.CoTService = Process(target=TCPCoTServiceController().start, args=(
             FTSServiceStartupConfigObject.CoTService.CoTServiceIP,
             FTSServiceStartupConfigObject.CoTService.CoTServicePort, self.CoTPoisonPill, self.service_tcp_user_queue_send,
@@ -275,9 +276,9 @@ class FTS:
             SSLCoTServicePipeController = Queue()
             self.SSLCoTServicePipe = QueueManager(SSLCoTServicePipeFTS, SSLCoTServicePipeController)
             SSLCoTServicePipe = QueueManager(SSLCoTServicePipeController, SSLCoTServicePipeFTS)
-            self.SSLCoTPoisonPill = multiprocessing.Event()
+            self.SSLCoTPoisonPill = Event()
             self.SSLCoTPoisonPill.set()
-            self.ReceiveConnectionsReset = multiprocessing.Event()
+            self.ReceiveConnectionsReset = Event()
             self.SSLCoTService = Process(target=SSLCoTServiceController().start, args=(
             FTSServiceStartupConfigObject.SSLCoTService.SSLCoTServiceIP,
             FTSServiceStartupConfigObject.SSLCoTService.SSLCoTServicePort, self.SSLCoTPoisonPill,
@@ -752,7 +753,7 @@ class FTS:
                 self.start_all(StartupObject)
 
             start_timer = time.time() - 60
-            threading.Thread(target=self.checkPipes).start()
+            Process(target=self.checkPipes).start()
             while True:
                 try:
                     if time.time() > start_timer+15:
@@ -778,7 +779,7 @@ import time
 
 class QueueManager:
     def __init__(self, sender_queue: Queue, listener_queue: Queue):
-        self.lock = multiprocessing.Event()
+        self.lock = Event()
         self.lock.set()
         # queue too send data too
         self.sender_queue = sender_queue
@@ -816,7 +817,7 @@ class QueueManager:
 
 class APIQueueManager:
     def __init__(self, sender_queue: Queue, listener_queue: Queue):
-        self.lock = multiprocessing.Event()
+        self.lock = Event()
         self.lock.set()
         # queue too send data too
         self.sender_queue = sender_queue
