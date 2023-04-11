@@ -1,4 +1,6 @@
 import multiprocessing
+from threading import Thread as Process
+
 import threading
 import argparse
 import linecache
@@ -32,7 +34,8 @@ from FreeTAKServer.controllers.services.federation.FederationClientService impor
 from FreeTAKServer.controllers.services.federation.federation import FederationServerService
 from FreeTAKServer.controllers.DatabaseControllers.DatabaseController import DatabaseController
 from FreeTAKServer.controllers.certificate_generation import AtakOfTheCerts
-from multiprocessing import Queue
+#from multiprocessing import Queue
+from queue import Queue
 from FreeTAKServer.controllers.configuration.MainConfig import MainConfig
 
 from FreeTAKServer.model.Enumerations.serviceTypes import ServiceTypes
@@ -88,7 +91,7 @@ class FTS:
             self.receive_Rest_stopper = multiprocessing.Event()
             self.receive_Rest_stopper.clear()
             self.receive_Rest = threading.Thread(target=self.receive_Rest_commands, args=(self.receive_Rest_stopper,))
-            self.RestAPIProcess = multiprocessing.Process(target=RestAPI().startup, args=(
+            self.RestAPIProcess = Process(target=RestAPI().startup, args=(
             self.RestAPIPipe, RestAPICommandsFTS, StartupObjects.RestAPIService.RestAPIServiceIP,
             StartupObjects.RestAPIService.RestAPIServicePort, self.StartupTime))
             self.receive_Rest.start()
@@ -131,7 +134,7 @@ class FTS:
             self.CoTPoisonPill = multiprocessing.Event()
             self.CoTPoisonPill.set()
             self.ReceiveConnectionsReset = multiprocessing.Event()
-            self.CoTService = multiprocessing.Process(target=TCPCoTServiceController().start, args=(
+            self.CoTService = Process(target=TCPCoTServiceController().start, args=(
             FTSServiceStartupConfigObject.CoTService.CoTServiceIP,
             FTSServiceStartupConfigObject.CoTService.CoTServicePort, self.CoTPoisonPill, self.service_tcp_user_queue_send,
             self.ReceiveConnectionsReset, TCPCoTService, self.core_tcp_user_queue_send))
@@ -178,7 +181,7 @@ class FTS:
         try:
             self.tcp_data_package_service_pipe = Queue()
             print('start 213')
-            self.TCPDataPackageService = multiprocessing.Process(target=TCPFlaskFunctions().startup,
+            self.TCPDataPackageService = Process(target=TCPFlaskFunctions().startup,
                                                                  args=(
                                                                  FTSServiceStartupConfigObject.TCPDataPackageService.TCPDataPackageServiceIP,
                                                                  FTSServiceStartupConfigObject.TCPDataPackageService.TCPDataPackageServicePort,
@@ -223,7 +226,7 @@ class FTS:
         try:
             print('start 213')
             self.ssl_data_package_service = Queue()
-            self.SSLDataPackageService = multiprocessing.Process(target=SSLFlaskFunctions().startup,
+            self.SSLDataPackageService = Process(target=SSLFlaskFunctions().startup,
                                                                  args=(
                                                                  FTSServiceStartupConfigObject.SSLDataPackageService.SSLDataPackageServiceIP,
                                                                  FTSServiceStartupConfigObject.SSLDataPackageService.SSLDataPackageServicePort,
@@ -275,7 +278,7 @@ class FTS:
             self.SSLCoTPoisonPill = multiprocessing.Event()
             self.SSLCoTPoisonPill.set()
             self.ReceiveConnectionsReset = multiprocessing.Event()
-            self.SSLCoTService = multiprocessing.Process(target=SSLCoTServiceController().start, args=(
+            self.SSLCoTService = Process(target=SSLCoTServiceController().start, args=(
             FTSServiceStartupConfigObject.SSLCoTService.SSLCoTServiceIP,
             FTSServiceStartupConfigObject.SSLCoTService.SSLCoTServicePort, self.SSLCoTPoisonPill,
             self.service_ssl_user_queue_send, self.ReceiveConnectionsReset, SSLCoTServicePipe, self.core_ssl_user_queue_send))
@@ -323,7 +326,7 @@ class FTS:
         FederationClientServicePipe = Queue()
         self.FederationClientServicePipeFTS = QueueManager(FederationClientServicePipeFTS, FederationClientServicePipe)
         FederationClientServicePipe = QueueManager(FederationClientServicePipe, FederationClientServicePipeFTS)
-        self.FederationClientService = multiprocessing.Process(target=FederationClientServiceController().start,
+        self.FederationClientService = Process(target=FederationClientServiceController().start,
                                                                args=(FederationClientServicePipe,))
         self.FederationClientService.start()
         self.pipeList['FederationClientServiceFTSPipe'] = self.FederationClientServicePipeFTS
@@ -364,7 +367,7 @@ class FTS:
             self.FederationServerServicePipeFTS = QueueManager(FederationServerServiceController,
                                                                FederationServerServiceFTS)
             FederationServerServicePipe = QueueManager(FederationServerServiceFTS, FederationServerServiceController)
-            self.FederationServerService = multiprocessing.Process(
+            self.FederationServerService = Process(
                 target=FederationServerService().start, args=(FederationServerServicePipe, ip, port))
             self.FederationServerService.start()
             self.pipeList['FederationServerServiceFTSPipe'] = self.FederationServerServicePipeFTS
@@ -394,7 +397,7 @@ class FTS:
         try:
             if FTSServiceStartupConfigObject.TCPDataPackageService.TCPDataPackageServiceStatus == 'start':
                 self.FTSServiceStartupConfigObject.TCPDataPackageService.TCPDataPackageServiceStatus = FTSServiceStartupConfigObject.TCPDataPackageService.TCPDataPackageServiceStatus
-                if isinstance(self.TCPDataPackageService, multiprocessing.Process) and self.TCPDataPackageService.is_alive(): # stop the running service and restart, this applies primarily to port changes
+                if isinstance(self.TCPDataPackageService, Process) and self.TCPDataPackageService.is_alive(): # stop the running service and restart, this applies primarily to port changes
                     self.stop_tcp_data_package_service()
                 self.start_tcp_data_package_service(FTSServiceStartupConfigObject)
                 if FTSServiceStartupConfigObject.TCPDataPackageService.TCPDataPackageServicePort != "":
@@ -417,7 +420,7 @@ class FTS:
 
             if FTSServiceStartupConfigObject.SSLDataPackageService.SSLDataPackageServiceStatus == 'start':
                 self.FTSServiceStartupConfigObject.SSLDataPackageService.SSLDataPackageServiceStatus = FTSServiceStartupConfigObject.SSLDataPackageService.SSLDataPackageServiceStatus
-                if isinstance(self.SSLDataPackageService, multiprocessing.Process) and self.SSLDataPackageService.is_alive(): # stop the running service and restart, this applies primarily to port changes
+                if isinstance(self.SSLDataPackageService, Process) and self.SSLDataPackageService.is_alive(): # stop the running service and restart, this applies primarily to port changes
                     self.stop_ssl_data_package_service()
                 self.start_ssl_data_package_service(FTSServiceStartupConfigObject)
                 if FTSServiceStartupConfigObject.SSLDataPackageService.SSLDataPackageServicePort != "":
@@ -440,7 +443,7 @@ class FTS:
 
             if FTSServiceStartupConfigObject.CoTService.CoTServiceStatus == 'start':
                 self.FTSServiceStartupConfigObject.CoTService.CoTServiceStatus = FTSServiceStartupConfigObject.CoTService.CoTServiceStatus
-                if isinstance(self.CoTService, multiprocessing.Process) and self.CoTService.is_alive(): # stop the running service and restart, this applies primarily to port changes
+                if isinstance(self.CoTService, Process) and self.CoTService.is_alive(): # stop the running service and restart, this applies primarily to port changes
                     self.stop_cot_service()
                 self.start_cot_service(FTSServiceStartupConfigObject)
                 if FTSServiceStartupConfigObject.CoTService.CoTServicePort != "":
@@ -456,7 +459,7 @@ class FTS:
 
             if FTSServiceStartupConfigObject.SSLCoTService.SSLCoTServiceStatus == 'start':
                 self.FTSServiceStartupConfigObject.SSLCoTService.SSLCoTServiceStatus = FTSServiceStartupConfigObject.SSLCoTService.SSLCoTServiceStatus
-                if isinstance(self.SSLCoTService, multiprocessing.Process) and self.SSLCoTService.is_alive(): # stop the running service and restart, this applies primarily to port changes
+                if isinstance(self.SSLCoTService, Process) and self.SSLCoTService.is_alive(): # stop the running service and restart, this applies primarily to port changes
                     self.stop_ssl_cot_service()
                 self.start_ssl_cot_service(FTSServiceStartupConfigObject)
                 if FTSServiceStartupConfigObject.SSLCoTService.SSLCoTServicePort != "":
@@ -473,7 +476,7 @@ class FTS:
 
             if FTSServiceStartupConfigObject.FederationClientService.FederationClientServiceStatus == 'start':
                 self.FTSServiceStartupConfigObject.FederationClientService.FederationClientServiceStatus = FTSServiceStartupConfigObject.FederationClientService.FederationClientServiceStatus
-                if isinstance(self.FederationClientService, multiprocessing.Process) and self.FederationClientService.is_alive(): # stop the running service and restart, this applies primarily to port changes
+                if isinstance(self.FederationClientService, Process) and self.FederationClientService.is_alive(): # stop the running service and restart, this applies primarily to port changes
                     self.stop_federation_client_service()
                 self.start_federation_client_service(FTSServiceStartupConfigObject)
                 if FTSServiceStartupConfigObject.FederationClientService.FederationClientServicePort != "":
@@ -491,7 +494,7 @@ class FTS:
 
             if FTSServiceStartupConfigObject.FederationServerService.FederationServerServiceStatus == 'start':
                 self.FTSServiceStartupConfigObject.FederationServerService.FederationServerServiceStatus = FTSServiceStartupConfigObject.FederationServerService.FederationServerServiceStatus
-                if isinstance(self.FederationServerService, multiprocessing.Process) and self.FederationServerService.is_alive(): # stop the running service and restart, this applies primarily to port changes
+                if isinstance(self.FederationServerService, Process) and self.FederationServerService.is_alive(): # stop the running service and restart, this applies primarily to port changes
                     self.stop_federation_server_service()
                 self.start_federation_server_service(FTSServiceStartupConfigObject)
                 if FTSServiceStartupConfigObject.FederationServerService.FederationServerServicePort != "":
@@ -850,7 +853,7 @@ if __name__ == "__main__":
     conf = importlib.import_module("FreeTAKServer-UI")
     FreeTAKServerUI = importlib.import_module("FreeTAKServer-UI.app", "run")
     y = FreeTAKServerUI.create_app()
-    UIProc = multiprocessing.Process(target=FreeTAKServerUI.app, args=())
+    UIProc = Process(target=FreeTAKServerUI.app, args=())
     UIProc.start()"""
     try:
         parser = argparse.ArgumentParser(description=OrchestratorConstants().FULLDESC)
@@ -901,4 +904,3 @@ if __name__ == "__main__":
                       args.AutoStart, True, args.UI)
     except Exception as e:
         print(e)
-
