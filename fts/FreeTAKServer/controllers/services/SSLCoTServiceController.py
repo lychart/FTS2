@@ -3,7 +3,8 @@ from FreeTAKServer.controllers.ClientReceptionHandler import ClientReceptionHand
 from FreeTAKServer.controllers.ReceiveConnections import ReceiveConnections
 import os
 from FreeTAKServer.controllers.SSLSocketController import SSLSocketController
-from multiprocessing.pool import ThreadPool
+#from multiprocessing.pool import ThreadPool
+from concurrent.futures import ThreadPoolExecutor as PoolExecutor
 from FreeTAKServer.controllers.configuration.LoggingConstants import LoggingConstants
 from FreeTAKServer.controllers.CreateLoggerController import CreateLoggerController
 from FreeTAKServer.controllers.DatabaseControllers.DatabaseController import DatabaseController
@@ -23,11 +24,16 @@ class SSLCoTServiceController(Orchestrator):
             self.SSLSocketController.changePort(CoTPort)
             sock = self.SSLSocketController.createSocket()
             #threadpool is used as it allows the transfer of SSL socket unlike processes
-            pool = ThreadPool(processes=2)
+            #pool = ThreadPool(processes=2)
+            pool = ThreadPoolExecutor(max_workers=2)
             self.clientDataRecvPipe = clientDataRecvPipe
             self.pool = pool
-            clientData = pool.apply_async(ClientReceptionHandler().startup, (self.clientInformationQueue,))
-            receiveConnection = pool.apply_async(ReceiveConnections().listen, (sock,))
+            #clientData = pool.apply_async(ClientReceptionHandler().startup, (self.clientInformationQueue,))
+            #receiveConnection = pool.apply_async(ReceiveConnections().listen, (sock,))
+            future1 = pool.submit(ClientReceptionHandler().startup, (self.clientInformationQueue,))
+            clientData = future1.result()
+            future2 = pool.submit(ReceiveConnections().listen, (sock,))
+            receiveConnection = future2.result()
             # instantiate domain model and save process as object
             self.mainRunFunction(clientData, receiveConnection, sock, pool, Event, clientDataPipe,
                                  ReceiveConnectionKillSwitch, RestAPIPipe, True)
