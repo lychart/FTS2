@@ -4,7 +4,7 @@ from FreeTAKServer.controllers.ReceiveConnections import ReceiveConnections
 from FreeTAKServer.controllers.TCPSocketController import TCPSocketController
 import os
 #from multiprocessing.pool import ThreadPool
-from concurrent.futures import ThreadPoolExecutor as PoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 from FreeTAKServer.controllers.configuration.LoggingConstants import LoggingConstants
 from FreeTAKServer.controllers.CreateLoggerController import CreateLoggerController
 from FreeTAKServer.controllers.DatabaseControllers.DatabaseController import DatabaseController
